@@ -1,0 +1,693 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package com.ConsultasITS.mx.view;
+import com.ConsultasITS.mx.Pruebas_Menu.MenuPrincipalPersonal;
+import com.ConsultasITS.mx.Pruebas_Menu.MneuPrincipalAdm;
+import com.ConsultasITS.mx.bo.MedicamentoBO;
+import com.ConsultasITS.mx.entity.Medicamento;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import com.ConsultasITS.mx.dao.MedicamentoDAO;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.JTextField;
+/**
+ *
+ * @author kevin
+ */
+public class FrmMedicamento extends javax.swing.JFrame {
+
+    /**
+     * Creates new form FrmMedicamento
+     */
+    public FrmMedicamento() {
+        initComponents();
+        listarMedicamento();
+        idMax();
+        setTitle("FORMULARIO DE MEDICAMENTO");
+        setLocationRelativeTo(null);
+        setResizable(false);
+        btnAgregar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        initComponents1();
+    }
+    
+    public void initComponents1(){
+        txtId_Medicamento.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e){
+                validarYCargarMedicamento();
+            }
+            
+            public void removeUpdate(DocumentEvent e){
+                validarYCargarMedicamento();
+            }
+            
+            public void changeUpdate(DocumentEvent e){
+                validarYCargarMedicamento();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        });
+        
+        // Suponiendo que el nombre de tu JDateChooser es jDateChooserFecha
+calenderFecha.getDateEditor().addPropertyChangeListener("date", evt -> {
+    validar();
+});
+
+    }
+    private void validarYCargarMedicamento() {
+    String idTexto = txtId_Medicamento.getText();
+    if (!idTexto.isEmpty() && idTexto.matches("\\d+")) {
+        int idmedicamento = Integer.parseInt(idTexto);
+        Medicamento medica = medicabo.buscarMedicamentoPorId(idmedicamento);
+        if (medica != null) {
+            txtNombre_Medicamento.setText(medica.getNombre_Medicamento());
+            txtPresentacion.setText(medica.getPresentacion());
+
+            // Asignar la fecha directamente al JCalendarComboBox
+            Date fechaCaducidad = medica.getFecha_Caducidad();
+            calenderFecha.setDate(fechaCaducidad);
+            
+        } else {
+            txtNombre_Medicamento.setText("");
+            txtPresentacion.setText("");
+            calenderFecha.setDate(null); // Limpiar la selección del JCalendarComboBox
+        }
+    } else {
+        txtNombre_Medicamento.setText("");
+        txtPresentacion.setText("");
+        calenderFecha.setDate(null); // Limpiar la selección del JCalendarComboBox
+    }
+}
+
+
+
+    
+    
+    public void validar() {
+    // Validar campos individuales y mostrar mensajes
+    if (txtId_Medicamento.getText().isEmpty()) {
+        jlbIdMedicamento.setText("*Obligatorio");
+    } else {
+        jlbIdMedicamento.setText("");
+    }
+    
+    if (txtNombre_Medicamento.getText().isEmpty()) {
+        jlbNombre.setText("*Obligatorio");
+    } else {
+        jlbNombre.setText("");
+    }
+    
+    if (txtPresentacion.getText().isEmpty()) {
+        jlbPresentacion.setText("*Obligatorio");
+    } else {
+        jlbPresentacion.setText("");
+    }
+    
+    if (calenderFecha.getDate() == null) {
+        jlbFecha.setText("*Obligatorio");
+    } else {
+        jlbFecha.setText("");
+    }
+
+    // Validar si todos los campos están llenos para habilitar los botones
+    if (txtId_Medicamento.getText().isEmpty() || 
+        txtNombre_Medicamento.getText().isEmpty() || 
+        txtPresentacion.getText().isEmpty() || 
+        calenderFecha.getDate() == null) {
+        
+        btnAgregar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+    } else {
+        btnAgregar.setEnabled(true);
+        btnModificar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+    }
+}
+
+    private MedicamentoBO medicabo = new MedicamentoBO();
+    public void listarMedicamento(){
+        medicabo.listarMedicamento(tbMedicamento);
+    }
+    public void idMax(){
+        txtId_Medicamento.setText(medicabo.getMaxID()+"");
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        txtId_Medicamento = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtNombre_Medicamento = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtPresentacion = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        btn_MostrarM = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btn_MostrarM1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbMedicamento = new javax.swing.JTable();
+        jlbIdMedicamento = new javax.swing.JLabel();
+        jlbNombre = new javax.swing.JLabel();
+        jlbPresentacion = new javax.swing.JLabel();
+        jlbFecha = new javax.swing.JLabel();
+        calenderFecha = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        LogoP = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(30, 79, 111));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtId_Medicamento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtId_Medicamento.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtId_Medicamento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtId_MedicamentoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtId_MedicamentoKeyTyped(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("ID Medicamento");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Nombre Medicamento");
+
+        txtNombre_Medicamento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNombre_Medicamento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombre_MedicamentoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombre_MedicamentoKeyTyped(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Presentacion");
+
+        txtPresentacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPresentacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPresentacionKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPresentacionKeyTyped(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Fecha Caducidad");
+
+        btn_MostrarM.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_MostrarM.setText("Back Menu ");
+        btn_MostrarM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_MostrarMSalirMenu(evt);
+            }
+        });
+
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        btn_MostrarM1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_MostrarM1.setText("Salir");
+        btn_MostrarM1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_MostrarM1SalirMenu(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(btnAgregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLimpiar)
+                .addGap(134, 134, 134)
+                .addComponent(btn_MostrarM)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_MostrarM1)
+                .addContainerGap(526, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnModificar)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnLimpiar)
+                    .addComponent(btn_MostrarM)
+                    .addComponent(btn_MostrarM1))
+                .addGap(14, 14, 14))
+        );
+
+        tbMedicamento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbMedicamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbMedicamentoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbMedicamento);
+
+        jlbIdMedicamento.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jlbIdMedicamento.setForeground(new java.awt.Color(153, 0, 0));
+
+        jlbNombre.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jlbNombre.setForeground(new java.awt.Color(153, 0, 0));
+
+        jlbPresentacion.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jlbPresentacion.setForeground(new java.awt.Color(153, 0, 0));
+
+        jlbFecha.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jlbFecha.setForeground(new java.awt.Color(153, 0, 0));
+
+        calenderFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                calenderFechaKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(calenderFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPresentacion, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                    .addComponent(txtNombre_Medicamento)
+                    .addComponent(txtId_Medicamento))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jlbFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlbPresentacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlbNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlbIdMedicamento, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jlbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtId_Medicamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jlbIdMedicamento))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtNombre_Medicamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4))
+                                    .addGap(39, 39, 39)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(txtPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jlbPresentacion)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(67, 67, 67)
+                                    .addComponent(jlbNombre)))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(21, 21, 21)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(calenderFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(46, 46, 46)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Medicamento");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LogoP, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(776, 776, 776))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(LogoP, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 866, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void tbMedicamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMedicamentoMouseClicked
+         int seleccion = tbMedicamento.rowAtPoint(evt.getPoint());
+    txtId_Medicamento.setText(tbMedicamento.getValueAt(seleccion, 0) + "");
+    txtNombre_Medicamento.setText(tbMedicamento.getValueAt(seleccion, 1) + "");
+    txtPresentacion.setText(tbMedicamento.getValueAt(seleccion, 2) + "");
+    
+    // Convertir la fecha obtenida de la tabla y asignarla al JCalendarComboBox
+    String fechaTexto = tbMedicamento.getValueAt(seleccion, 3) + "";
+    SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy"); // Ajusta el formato si es necesario
+    try {
+        Date fechaCaducidad = formato.parse(fechaTexto);
+        calenderFecha.setDate(fechaCaducidad); // Asigna la fecha al JCalendarComboBox
+    } catch (ParseException e) {
+        JOptionPane.showMessageDialog(null, "Error al convertir la fecha: " + e.getMessage());
+        calenderFecha.setDate(null); // Limpia la fecha si hay un error
+    }
+    
+    validar();
+    }//GEN-LAST:event_tbMedicamentoMouseClicked
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if(txtId_Medicamento.getText().isEmpty() || txtNombre_Medicamento.getText().isEmpty() || txtPresentacion.getText().isEmpty()
+        || calenderFecha.getDate() == null){
+        JOptionPane.showMessageDialog(null, "LLENE TODOS LOS CAMPOS");
+    } else {
+        int id_Usuario = UsuarioContexto.getId_Usuario();
+        Date fecha_caducidad = calenderFecha.getDate();
+        
+        if (fecha_caducidad == null) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fecha válida.");
+            return;
+        }
+        
+        Medicamento medica = new Medicamento();
+        medica.setId_Medicamento(Integer.parseInt(txtId_Medicamento.getText()));
+        medica.setNombre_Medicamento(txtNombre_Medicamento.getText());
+        medica.setPresentacion(txtPresentacion.getText());
+        medica.setFecha_Caducidad(new java.sql.Date(fecha_caducidad.getTime()));
+        medica.setId_Usuario(id_Usuario);
+      
+        String mensaje = medicabo.agregarMedicamento(medica);
+        JOptionPane.showMessageDialog(null, mensaje);
+        limpiar();
+        listarMedicamento();
+    }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        if(txtId_Medicamento.getText().isEmpty() || txtNombre_Medicamento.getText().isEmpty() || txtPresentacion.getText().isEmpty()
+        || calenderFecha.getDate() == null){
+        JOptionPane.showMessageDialog(null, "LLENE TODOS LOS CAMPOS");
+    } else {
+        int id_Usuario = UsuarioContexto.getId_Usuario();
+        Date fecha_caducidad = calenderFecha.getDate();
+        
+        if (fecha_caducidad == null) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fecha válida.");
+            return;
+        }
+        
+        Medicamento medica = new Medicamento();
+        medica.setId_Medicamento(Integer.parseInt(txtId_Medicamento.getText()));
+        medica.setNombre_Medicamento(txtNombre_Medicamento.getText());
+        medica.setPresentacion(txtPresentacion.getText());
+        medica.setFecha_Caducidad(new java.sql.Date(fecha_caducidad.getTime()));
+        medica.setId_Usuario(id_Usuario);
+      
+        String mensaje = medicabo.modificarMedicamento(medica);
+        JOptionPane.showMessageDialog(null, mensaje);
+        limpiar();
+        listarMedicamento();
+    }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(txtId_Medicamento.getText().isEmpty() || txtNombre_Medicamento.getText().isEmpty() || txtPresentacion.getText().isEmpty()
+        || calenderFecha.getDate() == null){
+            JOptionPane.showMessageDialog(null, "LLENE TODOS LOS CAMPOS");
+        }else{
+            String mensaje=medicabo.eliminarMedicamento(Integer.parseInt(txtId_Medicamento.getText()));
+            JOptionPane.showMessageDialog(null, mensaje);
+            limpiar();
+            listarMedicamento();
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btn_MostrarMSalirMenu(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MostrarMSalirMenu
+         String tipoUsuario=UsuarioContexto.getTipoUsuario();
+         String nombreUsuario=UsuarioContexto.getNombreUsuario();
+        if(tipoUsuario.equals("A")){
+            MneuPrincipalAdm menu1 = new MneuPrincipalAdm(nombreUsuario);
+            menu1.setVisible(true);
+        }else if(tipoUsuario.equals("P")){
+            MenuPrincipalPersonal menu = new MenuPrincipalPersonal(nombreUsuario);
+            menu.setVisible(true);
+        }
+        this.dispose();
+    }//GEN-LAST:event_btn_MostrarMSalirMenu
+
+    private void btn_MostrarM1SalirMenu(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MostrarM1SalirMenu
+        System.exit(0);
+    }//GEN-LAST:event_btn_MostrarM1SalirMenu
+
+    private void txtId_MedicamentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtId_MedicamentoKeyTyped
+        int key = evt.getKeyChar();
+        
+        boolean numero = key >=48 && key  <=57;
+        
+        if(!numero){
+            evt.consume();
+        }
+        
+        if(txtId_Medicamento.getText().trim().length()== 10){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtId_MedicamentoKeyTyped
+
+    private void txtNombre_MedicamentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre_MedicamentoKeyTyped
+        
+        if(txtNombre_Medicamento.getText().length()>=20){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombre_MedicamentoKeyTyped
+
+    private void txtPresentacionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPresentacionKeyTyped
+        if(txtPresentacion.getText().length()>=20){
+           evt.consume();
+        }
+    }//GEN-LAST:event_txtPresentacionKeyTyped
+
+    private void txtId_MedicamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtId_MedicamentoKeyReleased
+        // TODO add your handling code here:
+        validar();
+    }//GEN-LAST:event_txtId_MedicamentoKeyReleased
+
+    private void txtNombre_MedicamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre_MedicamentoKeyReleased
+        // TODO add your handling code here:
+        validar();
+    }//GEN-LAST:event_txtNombre_MedicamentoKeyReleased
+
+    private void txtPresentacionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPresentacionKeyReleased
+        // TODO add your handling code here:
+        validar();
+    }//GEN-LAST:event_txtPresentacionKeyReleased
+
+    private void calenderFechaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calenderFechaKeyReleased
+        // TODO add your handling code here:
+        validar();
+    }//GEN-LAST:event_calenderFechaKeyReleased
+
+    public void limpiar() {
+    txtId_Medicamento.setText("");
+    txtNombre_Medicamento.setText("");
+    txtPresentacion.setText("");
+    
+    // Suponiendo que tu componente de fecha es calendarComboBox
+    calenderFecha.setDate(null); // Limpiar la selección del JCalendarComboBox
+    
+    idMax();
+    validar();
+}
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmMedicamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmMedicamento().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LogoP;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btn_MostrarM;
+    private javax.swing.JButton btn_MostrarM1;
+    private com.toedter.calendar.JDateChooser calenderFecha;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlbFecha;
+    private javax.swing.JLabel jlbIdMedicamento;
+    private javax.swing.JLabel jlbNombre;
+    private javax.swing.JLabel jlbPresentacion;
+    private javax.swing.JTable tbMedicamento;
+    private javax.swing.JTextField txtId_Medicamento;
+    private javax.swing.JTextField txtNombre_Medicamento;
+    private javax.swing.JTextField txtPresentacion;
+    // End of variables declaration//GEN-END:variables
+}
